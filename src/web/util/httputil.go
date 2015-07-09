@@ -1,8 +1,12 @@
 package util
 
 import (
+	"bytes"
 	"net/http"
+	"net/url"
+	"strconv"
 	"strings"
+	"time"
 )
 
 const (
@@ -53,4 +57,37 @@ func GetHeaderIP(r *http.Request, header string) (remoteIP string) {
 		remoteIP = strings.TrimSpace(remoteIPS[len(remoteIPS)-1])
 	}
 	return
+}
+
+func HttpGet(urlStr string) ([]byte, error) {
+	r, _ := http.NewRequest("GET", urlStr, nil)
+	return doRequest(r)
+}
+
+func HttpPut(urlStr string, data []byte) ([]byte, error) {
+	r, _ := http.NewRequest("PUT", urlStr, bytes.NewReader(data))
+	return doRequest(r)
+}
+
+func HttpPost(urlStr string, data url.Values) ([]byte, error) {
+	r, _ := http.NewRequest("POST", urlStr, bytes.NewBufferString(data.Encode()))
+	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	r.Header.Add("Content-Length", strconv.Itoa(len(data.Encode())))
+	return doRequest(r)
+}
+
+func doRequest(request *http.Request) ([]byte, error) {
+	client := &http.Client{Timeout: time.Duration(15 * time.Second)}
+
+	response, err := client.Do(request)
+	if err != nil {
+		return []byte{}, err
+	}
+
+	defer response.Body.Close()
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return []byte{}, err
+	}
+	return body, nil
 }
