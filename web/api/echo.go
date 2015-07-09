@@ -1,9 +1,9 @@
 package api
 
 import (
+	"../util"
 	"fmt"
 	"net/http"
-	"web/util"
 )
 
 func Echo(w http.ResponseWriter, r *http.Request, c *util.RequestContext) {

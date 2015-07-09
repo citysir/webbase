@@ -1,6 +1,7 @@
 package app
 
 import (
+	"../util"
 	"fmt"
 	"net"
 	"net/http"
@@ -9,8 +10,6 @@ import (
 	"runtime/debug"
 	"syscall"
 	"time"
-	"web"
-	"web/util"
 )
 
 type handler struct {

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"app"
+	"web/app"
 )
 
 func main() {
