@@ -1,9 +1,15 @@
 package main
 
 import (
+	"log"
+	"os"
 	"web/app"
 )
 
 func main() {
-	app.Run()
+	if len(os.Args) < 2 {
+		log.Fatalln("no arg 'port'")
+	}
+
+	app.Run(os.Args[1])
 }

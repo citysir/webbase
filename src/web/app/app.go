@@ -28,18 +28,19 @@ func (this *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.URL.Path, httpStatus)
 }
 
-func Run() {
+func Run(port string) {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
-	printEnvironments()
+	printEnvironments(port)
 
-	go startServe()
+	go startServe(port)
 
 	stop()
 }
 
-func printEnvironments() {
-	fmt.Println("os:", runtime.GOOS, runtime.GOARCH)
+func printEnvironments(port string) {
+	fmt.Println("os: ", runtime.GOOS, runtime.GOARCH)
+	fmt.Println("listen: ", port)
 }
 
 func safeRun(w http.ResponseWriter, r *http.Request, realFunc func(http.ResponseWriter, *http.Request, *util.RequestContext)) (httpStatus int) {
@@ -57,9 +58,7 @@ func safeRun(w http.ResponseWriter, r *http.Request, realFunc func(http.Response
 	return
 }
 
-func startServe() {
-	port := os.Args[1]
-
+func startServe(port string) {
 	server := http.Server{
 		Addr:         fmt.Sprintf(":%s", port),
 		Handler:      &handler{},
@@ -73,8 +72,6 @@ func startServe() {
 }
 
 func stop() {
-	fmt.Println("stopping...")
-
 	chSignal := make(chan os.Signal)
 	signal.Notify(chSignal, os.Kill, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 	fmt.Println("Signal: ", <-chSignal)
