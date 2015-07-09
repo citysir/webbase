@@ -24,6 +24,8 @@ func (this *handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		httpStatus = http.StatusNotFound
 		http.NotFound(w, r)
 	}
+
+	fmt.Println(r.URL.Path, httpStatus)
 }
 
 func Run() {
