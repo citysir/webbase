@@ -7,6 +7,6 @@ func TestHttpGet(t *testing.T) {
 	if err != nil {
 		t.Error("test TestHttpGet failed")
 	} else {
-		t.Log("test TestHttpGet pass: %d", len(data))
+		t.Log("test TestHttpGet pass:", len(data))
 	}
 }
