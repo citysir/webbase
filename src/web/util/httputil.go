@@ -2,6 +2,7 @@ package util
 
 import (
 	"bytes"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strconv"
