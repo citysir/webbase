@@ -39,8 +39,8 @@ func Run(port string) {
 }
 
 func printEnvironments(port string) {
-	fmt.Println("os: ", runtime.GOOS, runtime.GOARCH)
-	fmt.Println("listen: ", port)
+	fmt.Println("os:", runtime.GOOS, runtime.GOARCH)
+	fmt.Println("listen:", port)
 }
 
 func safeRun(w http.ResponseWriter, r *http.Request, realFunc func(http.ResponseWriter, *http.Request, *util.RequestContext)) (httpStatus int) {
