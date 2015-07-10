@@ -9,19 +9,18 @@ import (
 	"time"
 )
 
+const TIMEOUT = time.Second * 15
+
 func TestCallEchoService(t *testing.T) {
-	transportFactory := thrift.NewTFramedTransportFactory(thrift.NewTTransportFactory())
-	protocolFactory := thrift.NewTBinaryProtocolFactoryDefault()
+	socket := thrift.NewTSocketFromAddrTimeout(addr, TIMEOUT)
+	transport := thrift.NewTFramedTransport(socket)
+	protocol := thrift.NewTBinaryProtocolTransport(transport)
+	protocol = thrift.NewTMultiplexedProtocol(protocol, "EchoService")
+	client = rpc.NewEchoServiceClientProtocol(transport, protocol, protocol)
 
-	transport, err := thrift.NewTSocket(net.JoinHostPort("127.0.0.1", "8080"))
+	err := transport.Open()
 	if err != nil {
-		log.Fatalln("error resolving address:", err)
-	}
-
-	useTransport := transportFactory.GetTransport(transport)
-	client := rpc.NewEchoServiceClientFactory(useTransport, protocolFactory)
-	if err := transport.Open(); err != nil {
-		log.Fatalln("Error opening socket to 127.0.0.1:8080", err)
+		t.Fatal("Unable to open client socket", err)
 	}
 	defer transport.Close()
 
