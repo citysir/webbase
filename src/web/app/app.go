@@ -2,15 +2,10 @@ package app
 
 import (
 	"fmt"
-	"log"
-	"net/http"
 	"os"
 	"os/signal"
 	"runtime"
-	"runtime/debug"
 	"syscall"
-	"time"
-	"web/util"
 )
 
 func Run(webPort, rpcPort string) {

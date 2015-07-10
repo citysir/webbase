@@ -1,13 +1,14 @@
 package app
 
 import (
+	"fmt"
 	"net/http"
 	"web/util"
 	"web/webapi"
 )
 
 var pathRoute = map[string]func(http.ResponseWriter, *http.Request, *util.RequestContext){
-	"/": api.Echo,
+	"/": webapi.Echo,
 }
 
 type handler struct {
