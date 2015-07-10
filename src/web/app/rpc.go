@@ -13,18 +13,22 @@ const (
 	TIMEOUT = time.Hour * 8
 )
 
+func registerProcessors(processor *TMultiplexedProcessor) {
+	processor.RegisterProcessor("EchoService", rpc.NewEchoServiceProcessor(&rpcapi.EchoServiceImpl{}))
+}
+
 func startRpcServe(port string) {
-	processor := thrift.NewTMultiplexedProcessor()
-	protocolFactory := thrift.NewTBinaryProtocolFactoryDefault()
-	transportFactory := thrift.NewTFramedTransportFactory(thrift.NewTTransportFactory())
-	serverTransport, err := thrift.NewTServerSocketTimeout(fmt.Sprintf(":%s", port), TIMEOUT)
+	socket, err := thrift.NewTServerSocketTimeout(fmt.Sprintf(":%s", port), TIMEOUT)
 	if err != nil {
 		log.Fatalln("Unable to create server socket", err)
 	}
 
-	echoProcessor := rpc.NewEchoServiceProcessor(&rpcapi.EchoServiceImpl{})
-	processor.RegisterProcessor("EchoService", echoProcessor)
+	protocol := thrift.NewTBinaryProtocolFactoryDefault()
+	transport := thrift.NewTFramedTransportFactory(thrift.NewTTransportFactory())
+	processor := thrift.NewTMultiplexedProcessor()
 
-	server := thrift.NewTSimpleServer4(processor, serverTransport, transportFactory, protocolFactory)
+	registerProcessors(processor)
+
+	server := thrift.NewTSimpleServer4(processor, socket, transport, protocol)
 	server.Serve()
 }
