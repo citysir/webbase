@@ -11,7 +11,7 @@ import (
 const TIMEOUT = time.Second * 15
 
 func TestCallEchoService(t *testing.T) {
-	socket := thrift.NewTSocketFromAddrTimeout(net.JoinHostPort("127.0.0.1", "8080"), TIMEOUT)
+	socket := thrift.NewTSocketTimeout(net.JoinHostPort("127.0.0.1", "8080"), TIMEOUT)
 	transport := thrift.NewTFramedTransport(socket)
 	var protocol thrift.TProtocol = thrift.NewTBinaryProtocolTransport(transport)
 	protocol = thrift.NewTMultiplexedProtocol(protocol, "EchoService")
