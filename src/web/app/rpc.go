@@ -16,8 +16,7 @@ const (
 func startRpcServe(port string) {
 	processor := thrift.NewTMultiplexedProcessor()
 	protocolFactory := thrift.NewTBinaryProtocolFactoryDefault()
-	transportFactory := thrift.NewTTransportFactory()
-	transportFactory = thrift.NewTFramedTransportFactory(transportFactory)
+	transportFactory := thrift.NewTFramedTransportFactory(thrift.NewTTransportFactory())
 	serverTransport, err := thrift.NewTServerSocketTimeout(fmt.Sprintf(":%s", port), TIMEOUT)
 	if err != nil {
 		log.Fatalln("Unable to create server socket", err)
