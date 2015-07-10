@@ -2,7 +2,6 @@ package rpcapi
 
 import (
 	"git.apache.org/thrift.git/lib/go/thrift"
-	"log"
 	"net"
 	"testing"
 	"thrift/gen-go/rpc"
@@ -12,11 +11,11 @@ import (
 const TIMEOUT = time.Second * 15
 
 func TestCallEchoService(t *testing.T) {
-	socket := thrift.NewTSocketFromAddrTimeout(addr, TIMEOUT)
+	socket := thrift.NewTSocketFromAddrTimeout(net.JoinHostPort("127.0.0.1", "8080"), TIMEOUT)
 	transport := thrift.NewTFramedTransport(socket)
-	protocol := thrift.NewTBinaryProtocolTransport(transport)
+	var protocol thrift.TProtocol = thrift.NewTBinaryProtocolTransport(transport)
 	protocol = thrift.NewTMultiplexedProtocol(protocol, "EchoService")
-	client = rpc.NewEchoServiceClientProtocol(transport, protocol, protocol)
+	client := rpc.NewEchoServiceClientProtocol(transport, protocol, protocol)
 
 	err := transport.Open()
 	if err != nil {
