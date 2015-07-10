@@ -22,9 +22,9 @@ func startRpcServe(port string) {
 		log.Fatalln("Unable to create server socket", err)
 	}
 
-	server := thrift.NewTSimpleServer4(processor, serverTransport, transportFactory, protocolFactory)
 	echoProcessor := rpc.NewEchoServiceProcessor(&rpcapi.EchoServiceImpl{})
 	processor.RegisterProcessor("EchoService", echoProcessor)
 
+	server := thrift.NewTSimpleServer4(processor, serverTransport, transportFactory, protocolFactory)
 	server.Serve()
 }
