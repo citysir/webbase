@@ -27,8 +27,9 @@ func TestCallEchoService(t *testing.T) {
 	defer transport.Close()
 
 	r, err := client.Echo(currentTimeMillis(), "hello world")
-	if err != nil && err != io.EOF {
-		t.Error("test TestCallEchoService failed", err, err.Error())
+	if err != nil {
+		exception := thrift.NewTTransportExceptionFromError(err)
+		t.Error("test TestCallEchoService failed", exception.TypeId(), exception.Err())
 	} else {
 		t.Log("test TestCallEchoService pass:", r)
 	}
