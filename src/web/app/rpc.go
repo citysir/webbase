@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	TIMEOUT = time.Second * 5
+	TIMEOUT = time.Hour * 8
 )
 
 func startRpcServe(port string) {
