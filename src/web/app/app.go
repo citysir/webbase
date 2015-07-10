@@ -11,7 +11,7 @@ import (
 func Run(webPort, rpcPort string) {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
-	printEnvironments(webPort)
+	printEnvironments(webPort, rpcPort)
 
 	go startWebServe(webPort)
 	go startRpcServe(rpcPort)
@@ -19,9 +19,9 @@ func Run(webPort, rpcPort string) {
 	stop()
 }
 
-func printEnvironments(port string) {
+func printEnvironments(webPort, rpcPort string) {
 	fmt.Println("os:", runtime.GOOS, runtime.GOARCH)
-	fmt.Println("listen:", port)
+	fmt.Println("listen:", webPort, rpcPort)
 }
 
 func stop() {
