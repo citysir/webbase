@@ -20,7 +20,7 @@ func TestCallEchoService(t *testing.T) {
 	}
 
 	useTransport := transportFactory.GetTransport(transport)
-	client := rpc.NewRpcServiceClientFactory(useTransport, protocolFactory)
+	client := rpc.NewEchoServiceClientFactory(useTransport, protocolFactory)
 	if err := transport.Open(); err != nil {
 		log.Fatalln("Error opening socket to 127.0.0.1:8080", err)
 	}
