@@ -1,7 +1,6 @@
 package rpcapi
 
 import (
-	"fmt"
 	"git.apache.org/thrift.git/lib/go/thrift"
 	"log"
 	"net"
