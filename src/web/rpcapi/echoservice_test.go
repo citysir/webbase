@@ -11,13 +11,17 @@ import (
 const TIMEOUT = time.Second * 15
 
 func TestCallEchoService(t *testing.T) {
-	socket := thrift.NewTSocketTimeout(net.JoinHostPort("127.0.0.1", "8080"), TIMEOUT)
+	socket, err := thrift.NewTSocketTimeout(net.JoinHostPort("127.0.0.1", "8080"), TIMEOUT)
+	if err != nil {
+		t.Fatal("Unable to new client socket", err)
+	}
+
 	transport := thrift.NewTFramedTransport(socket)
 	var protocol thrift.TProtocol = thrift.NewTBinaryProtocolTransport(transport)
 	protocol = thrift.NewTMultiplexedProtocol(protocol, "EchoService")
 	client := rpc.NewEchoServiceClientProtocol(transport, protocol, protocol)
 
-	err := transport.Open()
+	err = transport.Open()
 	if err != nil {
 		t.Fatal("Unable to open client socket", err)
 	}
