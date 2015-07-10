@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"git.apache.org/thrift.git/lib/go/thrift"
 	"log"
+	"thrift/gen-go/rpc"
 	"time"
 	"web/rpcapi"
 )
@@ -23,7 +24,7 @@ func startRpcServe(port string) {
 	}
 
 	server = thrift.NewTSimpleServer4(processor, serverTransport, transportFactory, protocolFactory)
-	echoProcessor := multiplexedprotocoltest.NewEchoServiceProcessor(&rpcapi.EchoServiceImpl{})
+	echoProcessor := rpc.NewEchoServiceProcessor(&rpcapi.EchoServiceImpl{})
 	processor.RegisterProcessor("EchoService", echoProcessor)
 
 	server.Serve()
