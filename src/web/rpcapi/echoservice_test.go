@@ -2,7 +2,6 @@ package rpcapi
 
 import (
 	"git.apache.org/thrift.git/lib/go/thrift"
-	"io"
 	"log"
 	"net"
 	"testing"
