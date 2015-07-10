@@ -23,7 +23,7 @@ func startRpcServe(port string) {
 	}
 
 	echoProcessor := rpc.NewEchoServiceProcessor(&rpcapi.EchoServiceImpl{})
-	processor.RegisterProcessor("EchoService", echoProcessor)
+	processor.RegisterProcessor("echo", echoProcessor)
 
 	server := thrift.NewTSimpleServer4(processor, serverTransport, transportFactory, protocolFactory)
 	server.Serve()
