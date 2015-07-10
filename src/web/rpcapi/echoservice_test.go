@@ -28,7 +28,7 @@ func TestCallEchoService(t *testing.T) {
 
 	r, err := client.Echo(currentTimeMillis(), "hello world")
 	if err != nil && err != io.EOF {
-		t.Error("test TestCallEchoService failed", r, err)
+		t.Error("test TestCallEchoService failed", err, err.Error())
 	} else {
 		t.Log("test TestCallEchoService pass:", r)
 	}
