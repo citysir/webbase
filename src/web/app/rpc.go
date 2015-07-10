@@ -13,7 +13,7 @@ const (
 	TIMEOUT = time.Hour * 8
 )
 
-func registerProcessors(processor *TMultiplexedProcessor) {
+func registerProcessors(processor *thrift.TMultiplexedProcessor) {
 	processor.RegisterProcessor("EchoService", rpc.NewEchoServiceProcessor(&rpcapi.EchoServiceImpl{}))
 }
 
